@@ -1,4 +1,4 @@
-package ds;
+package kfupm.clinic.ds;
 
 public class MaxHeap<T extends Comparable<T>> {
     private T[] heap;

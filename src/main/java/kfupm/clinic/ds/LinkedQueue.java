@@ -1,6 +1,6 @@
-package ds;
+package kfupm.clinic.ds;
 
-public class LinkedStack<T> {
+public class LinkedQueue<T> {
     private static class Node<T> {
         T data;
         Node<T> next;
@@ -10,24 +10,35 @@ public class LinkedStack<T> {
         }
     }
 
-    private Node<T> top;
+    private Node<T> front;
+    private Node<T> rear;
     private int size;
 
-    public void push(T item) {
+    public void enqueue(T item) {
         Node<T> newNode = new Node<>(item);
-        newNode.next = top;
-        top = newNode;
+
+        if (isEmpty()) {
+            front = rear = newNode;
+        } else {
+            rear.next = newNode;
+            rear = newNode;
+        }
+
         size++;
     }
 
-    public T pop() {
+    public T dequeue() {
         if (isEmpty()) {
             return null;
         }
 
-        T item = top.data;
-        top = top.next;
+        T item = front.data;
+        front = front.next;
         size--;
+
+        if (isEmpty()) {
+            rear = null;
+        }
 
         return item;
     }
@@ -37,7 +48,7 @@ public class LinkedStack<T> {
             return null;
         }
 
-        return top.data;
+        return front.data;
     }
 
     public boolean isEmpty() {

@@ -1,4 +1,4 @@
-package ds;
+package kfupm.clinic.ds;
 
 public class SinglyLinkedList<T> {
     private static class Node<T> {

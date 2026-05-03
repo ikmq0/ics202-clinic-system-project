@@ -1,4 +1,4 @@
-package ds;
+package kfupm.clinic.ds;
 
 public class AVLTree<K extends Comparable<K>, V> {
 

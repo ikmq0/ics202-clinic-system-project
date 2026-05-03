@@ -1,4 +1,4 @@
-package matching;
+package kfupm.clinic.matching;
 
 public class KMPMatcher {
 
