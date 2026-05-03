@@ -228,23 +228,46 @@ Both members should work together on:
 
 ---
 
-# Recommended Work Order
+# Implementation Stages (5-Stage Plan)
 
-## Member 1
+To effectively scaffold the starter project, integrate data structures, and make meaningful commits step-by-step, follow this 5-stage plan:
 
-1. Hash Table
-2. AVL Tree
-3. Patient commands
-4. Appointment commands
-5. Appointment testing
+## Stage 1: Restructure and Add Models
+- **Tasks:**
+  - Move `ds/` and `matching/` inside `src/main/java/kfupm/clinic/`.
+  - Add `api/Result.java`.
+  - Add models in `model/` (`Patient`, `Appointment`, `AppointmentKey`, `UrgentPatient`, `VisitLogEntry`, `Action`, `ActionType`).
+- **Commit Idea:** `chore: restructure project and add data models`
 
-## Member 2
+## Stage 2: Add Infrastructure & Parsers
+- **Tasks:**
+  - Add `ClinicSystem.java` (Main execution loop).
+  - Add `parser/CommandDispatcher.java` and `parser/CommandTokenizer.java`.
+  - Add `service/ClinicService.java` (Interface).
+  - Add `matching/StringMatcher.java` and adapt `NaiveMatcher` and `KMPMatcher`.
+- **Commit Idea:** `feat: add core CLI infrastructure, parser, and service interface`
 
-1. Queue, Stack, and Singly Linked List
-2. Max Heap
-3. Naive and KMP string matching
-4. Walk-in and urgent commands
-5. Serving, logs, and undo
+## Stage 3: Initialize Service Implementation
+- **Tasks:**
+  - Add `service/ClinicServiceImpl.java`.
+  - Instantiate `HashTable`, `AVLTree`, `MaxHeap`, `LinkedQueue`, `LinkedStack`, and `SinglyLinkedList`.
+  - Add placeholder methods to compile successfully.
+- **Commit Idea:** `feat: initialize ClinicServiceImpl with custom data structures`
+
+## Stage 4: Implement Patients & Appointments (Member 1)
+- **Tasks:**
+  - Implement `ADD_PATIENT`, `FIND_PATIENT`, `DELETE_PATIENT` (Hash Table).
+  - Implement `ADD_APPT`, `CANCEL_APPT`, `FIND_APPT`, `VIEW_DAY`, `VIEW_RANGE` (AVL Tree + Hash Table).
+- **Commit Idea:** `feat: implement patient and appointment commands`
+
+## Stage 5: Implement Serving, Logs, Search, & Undo (Member 2)
+- **Tasks:**
+  - Implement walk-in logic: `ADD_WALKIN`, `VIEW_WALKINS` (Queue).
+  - Implement urgent logic: `ADD_URGENT`, `PEEK_URGENT`, `VIEW_URGENTS` (Heap).
+  - Implement serving logic: `SERVE_NEXT` prioritizing Urgent -> Walk-in -> Appointments, logging visits.
+  - Implement log search: `SEARCH_LOG_NAIVE`, `SEARCH_LOG_KMP` (String Matching).
+  - Implement action tracking: `UNDO` (Stack).
+- **Commit Idea:** `feat: implement walk-ins, prioritizing logic, search, and undo`
 
 ---
 
