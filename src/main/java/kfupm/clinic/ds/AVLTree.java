@@ -159,5 +159,18 @@ public class AVLTree<K extends Comparable<K>, V> {
         System.out.println(node.key + " -> " + node.value);
         printInOrder(node.right);
     }
+    
+    public java.util.List<V> toList() {
+        java.util.List<V> list = new java.util.ArrayList<>();
+        toList(root, list);
+        return list;
+    }
+
+    private void toList(Node node, java.util.List<V> list) {
+        if (node == null) return;
+        toList(node.left, list);
+        list.add(node.value);
+        toList(node.right, list);
+    }
 }
 
