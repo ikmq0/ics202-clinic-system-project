@@ -1,17 +1,18 @@
 package kfupm.clinic.matching;
 
-public class NaiveMatcher {
-    
-    public static int search(String text, String pattern) {
+public class NaiveMatcher implements StringMatcher {
+
+    @Override
+    public boolean contains(String text, String pattern) {
         if (text == null || pattern == null) {
-            return -1;
+            return false;
         }
-        
+
         int n = text.length();
         int m = pattern.length();
-        
+
         if (m == 0) {
-            return 0;
+            return true;
         }
 
         for (int i = 0; i <= n - m; i++) {
@@ -22,10 +23,10 @@ public class NaiveMatcher {
                 }
             }
             if (j == m) {
-                return i; // Found pattern at index i
+                return true; // Found pattern
             }
         }
-        
-        return -1; // Pattern not found
+
+        return false; // Pattern not found
     }
 }

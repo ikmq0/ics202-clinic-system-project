@@ -58,4 +58,14 @@ public class LinkedQueue<T> {
     public int size() {
         return size;
     }
+
+    public java.util.List<T> toList() {
+        java.util.List<T> list = new java.util.ArrayList<>();
+        Node<T> current = front;
+        while (current != null) {
+            list.add(current.data);
+            current = current.next;
+        }
+        return list;
+    }
 }

@@ -103,4 +103,14 @@ public class SinglyLinkedList<T> {
     public boolean isEmpty() {
         return size == 0;
     }
+
+    public java.util.List<T> toList() {
+        java.util.List<T> list = new java.util.ArrayList<>();
+        Node<T> current = head;
+        while (current != null) {
+            list.add(current.data);
+            current = current.next;
+        }
+        return list;
+    }
 }

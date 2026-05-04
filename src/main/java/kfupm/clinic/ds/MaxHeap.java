@@ -1,20 +1,27 @@
 package kfupm.clinic.ds;
 
-public class MaxHeap<T extends Comparable<T>> {
+import java.util.Comparator;
+import java.util.List;
+import java.util.ArrayList;
+
+public class MaxHeap<T> {
     private T[] heap;
     private int size;
     private static final int DEFAULT_CAPACITY = 10;
+    private Comparator<T> comparator;
 
     @SuppressWarnings("unchecked")
-    public MaxHeap() {
-        heap = (T[]) new Comparable[DEFAULT_CAPACITY];
+    public MaxHeap(Comparator<T> comparator) {
+        heap = (T[]) new Object[DEFAULT_CAPACITY];
         size = 0;
+        this.comparator = comparator;
     }
 
     @SuppressWarnings("unchecked")
-    public MaxHeap(int capacity) {
-        heap = (T[]) new Comparable[capacity];
+    public MaxHeap(int capacity, Comparator<T> comparator) {
+        heap = (T[]) new Object[capacity];
         size = 0;
+        this.comparator = comparator;
     }
 
     public void insert(T item) {
@@ -44,6 +51,10 @@ public class MaxHeap<T extends Comparable<T>> {
         }
         return heap[0];
     }
+    
+    public T peek() {
+        return peekMax();
+    }
 
     public boolean isEmpty() {
         return size == 0;
@@ -53,9 +64,21 @@ public class MaxHeap<T extends Comparable<T>> {
         return size;
     }
 
+    public List<T> toListSnapshot() {
+        List<T> list = new ArrayList<>();
+        // Note: returning a shallow snapshot in arbitrary heap order, 
+        // to strictly return sorted order we would need to clone the heap.
+        for (int i = 0; i < size; i++) {
+            list.add(heap[i]);
+        }
+        // Basic sort to snapshot correctly visually
+        list.sort(comparator.reversed());
+        return list;
+    }
+
     private void heapifyUp(int index) {
         int parentIndex = (index - 1) / 2;
-        while (index > 0 && heap[index].compareTo(heap[parentIndex]) > 0) {
+        while (index > 0 && comparator.compare(heap[index], heap[parentIndex]) > 0) {
             swap(index, parentIndex);
             index = parentIndex;
             parentIndex = (index - 1) / 2;
@@ -68,11 +91,11 @@ public class MaxHeap<T extends Comparable<T>> {
             int rightChildIndex = 2 * index + 2;
             int largestIndex = index;
 
-            if (leftChildIndex < size && heap[leftChildIndex].compareTo(heap[largestIndex]) > 0) {
+            if (leftChildIndex < size && comparator.compare(heap[leftChildIndex], heap[largestIndex]) > 0) {
                 largestIndex = leftChildIndex;
             }
 
-            if (rightChildIndex < size && heap[rightChildIndex].compareTo(heap[largestIndex]) > 0) {
+            if (rightChildIndex < size && comparator.compare(heap[rightChildIndex], heap[largestIndex]) > 0) {
                 largestIndex = rightChildIndex;
             }
 
@@ -93,7 +116,7 @@ public class MaxHeap<T extends Comparable<T>> {
 
     @SuppressWarnings("unchecked")
     private void resize() {
-        T[] newHeap = (T[]) new Comparable[heap.length * 2];
+        T[] newHeap = (T[]) new Object[heap.length * 2];
         System.arraycopy(heap, 0, newHeap, 0, heap.length);
         heap = newHeap;
     }

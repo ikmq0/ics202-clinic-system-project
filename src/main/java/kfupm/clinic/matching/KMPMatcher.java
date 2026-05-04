@@ -1,17 +1,18 @@
 package kfupm.clinic.matching;
 
-public class KMPMatcher {
+public class KMPMatcher implements StringMatcher {
 
-    public static int search(String text, String pattern) {
+    @Override
+    public boolean contains(String text, String pattern) {
         if (text == null || pattern == null) {
-            return -1;
+            return false;
         }
 
         int n = text.length();
         int m = pattern.length();
 
         if (m == 0) {
-            return 0;
+            return true;
         }
 
         int[] lps = computeLPSArray(pattern);
@@ -25,7 +26,7 @@ public class KMPMatcher {
             }
 
             if (j == m) {
-                return i - j; // Found pattern at index (i - j)
+                return true; // Found pattern
             } else if (i < n && pattern.charAt(j) != text.charAt(i)) {
                 if (j != 0) {
                     j = lps[j - 1];
@@ -35,7 +36,7 @@ public class KMPMatcher {
             }
         }
 
-        return -1; // Pattern not found
+        return false; // Pattern not found
     }
 
     private static int[] computeLPSArray(String pattern) {

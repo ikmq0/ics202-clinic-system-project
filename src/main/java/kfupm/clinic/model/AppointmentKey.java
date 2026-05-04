@@ -1,36 +1,23 @@
 package kfupm.clinic.model;
 
-public class AppointmentKey implements Comparable<AppointmentKey> {
-    private String date;
-    private String time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
-    public AppointmentKey(String date, String time) {
-        this.date = date;
-        this.time = time;
-    }
-
-    public String getDate() { return date; }
-    public String getTime() { return time; }
-
+/**
+ * Composite key for scheduling order.
+ * Sorted by date, then time, then appointmentId.
+ */
+public record AppointmentKey(LocalDate date, LocalTime time, String appointmentId) implements Comparable<AppointmentKey> {
     @Override
     public int compareTo(AppointmentKey o) {
-        int dateCmp = this.date.compareTo(o.date);
-        if (dateCmp != 0) {
-            return dateCmp;
-        }
-        return this.time.compareTo(o.time);
+        int c = date.compareTo(o.date);
+        if (c != 0) return c;
+        c = time.compareTo(o.time);
+        if (c != 0) return c;
+        return appointmentId.compareTo(o.appointmentId);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AppointmentKey that = (AppointmentKey) o;
-        return date.equals(that.date) && time.equals(that.time);
-    }
-
-    @Override
-    public String toString() {
-        return date + " " + time;
+    public String slotKey() {
+        return date + "|" + time;
     }
 }
